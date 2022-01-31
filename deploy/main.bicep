@@ -1,23 +1,23 @@
 param location string = resourceGroup().location
 param environmentName string = 'env-${uniqueString(resourceGroup().id)}'
 
-// store service
-param storeMinReplicas int = 1
-param storeImage string = 'ghcr.io/azure/container-apps-demo/store-service:latest'
-param storePort int = 3000
-param isStoreExternalIngress bool = true
+// inventory service
+param inventoryMinReplicas int = 1
+param inventoryImage string = 'ghcr.io/azure/container-apps-demo/inventory-service:latest'
+param inventoryPort int = 8081
+param isInventoryExternalIngress bool = true
 
 // order service
 param orderMinReplicas int = 1
 param orderImage string = 'ghcr.io/azure/container-apps-demo/order-service:latest'
-param orderPort int = 5000
-param isOrderExternalIngress bool = false
+param orderPort int = 8082
+param isOrderExternalIngress bool = true
 
-// inventory service
-param inventoryMinReplicas int = 1
-param inventoryImage string = 'ghcr.io/azure/container-apps-demo/inventory-service:latest'
-param inventoryPort int = 8050
-param isInventoryExternalIngress bool = false
+// store service
+param storeMinReplicas int = 1
+param storeImage string = 'ghcr.io/azure/container-apps-demo/store-service:latest'
+param storePort int = 8083
+param isStoreExternalIngress bool = true
 
 // container app environment
 module environment 'environment.bicep' = {

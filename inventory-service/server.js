@@ -8,6 +8,7 @@ app.register(require('fastify-swagger'), {
   exposeRoute: true
 })
 app.register(require('./routes/base'))
+app.register(require('./routes/inventory'),{ prefix: '/inventory' })
 
 // start server
 app.listen(port,'0.0.0.0', function (err, address) {

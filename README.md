@@ -18,6 +18,8 @@ The demo has 3 microservices:
 * Order Service
 * Inventory Service
 
+![image of architecture](./assets/app-diagram.png)
+
 ## Container Images
 
 Container images are hosted in GitHub Container Registry.

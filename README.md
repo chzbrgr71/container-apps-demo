@@ -18,7 +18,7 @@ The demo includes a UI app and 3 microservices:
 * Order Service
 * Inventory Service
 
-![image of architecture](./assets/app-diagram.png)
+![image of architecture](./assets/architecture.png)
 
 ## Container Images
 

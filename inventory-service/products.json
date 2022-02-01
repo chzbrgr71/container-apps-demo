@@ -1,9 +1,12 @@
 [
-    { "id": 1, "itemName": "Thule Roof Rack Base System", "quantity": 125, "warehouseLocation": "lot A, shelf 3" },
-    { "id": 2, "itemName": "Thule Roof Rack Base System", "quantity": 125, "warehouseLocation": "lot A, shelf 3" },
-    { "id": 3, "itemName": "Thule Roof Rack Base System", "quantity": 125, "warehouseLocation": "lot A, shelf 3" },
-    { "id": 4, "itemName": "Thule Roof Rack Base System", "quantity": 125, "warehouseLocation": "lot A, shelf 3" },
-    { "id": 5, "itemName": "Thule Roof Rack Base System", "quantity": 125, "warehouseLocation": "lot A, shelf 3" },
-    { "id": 6, "itemName": "Thule Roof Rack Base System", "quantity": 125, "warehouseLocation": "lot A, shelf 3" },
-    { "id": 7, "itemName": "Thule Roof Rack Base System", "quantity": 125, "warehouseLocation": "lot A, shelf 3" }
+    { "id": 1, "itemName": "Thule Roof Rack Base System", "price": "$499", "quantity": 55, "warehouseLocation": "Row A - Bin 141" },
+    { "id": 2, "itemName": "Thule Kayak Carrier", "price": "$219", "quantity": 22, "warehouseLocation": "Row C - Bin 46" },
+    { "id": 3, "itemName": "MSR Snow shoes", "price": "$185", "quantity": 33, "warehouseLocation": "Row F - Bin 23" },
+    { "id": 4, "itemName": "Smith Vantage MIPS Ski Helmet", "price": "$240", "quantity": 98, "warehouseLocation": "Row B - Bin 91" },
+    { "id": 5, "itemName": "Kuat Bike carrier - tow hitch", "price": "$690", "quantity": 41, "warehouseLocation": "Row C - Bin 47" },
+    { "id": 6, "itemName": "Hestra Gloves Heli Insulated Mittens", "price": "$135", "quantity": 125, "warehouseLocation": "Row E - Bin 201" },
+    { "id": 7, "itemName": "Santa Cruz Hightower 29er MTB", "price": "$7,599", "quantity": 3, "warehouseLocation": "Row G - Bin 301" },
+    { "id": 8, "itemName": "Deuter Aircontact Lite 65 + 10 Pack", "price": "$220", "quantity": 15, "warehouseLocation": "Row A - Bin 25" },
+    { "id": 9, "itemName": "Big Agnes Copper Spur HV UL2 Tent", "price": "$319", "quantity": 19, "warehouseLocation": "Row F - Bin 101" },
+    { "id": 10, "itemName": "Jetboil Flash Cooking System",  "price": "$75", "quantity": 273, "warehouseLocation": "Row Z - Bin 3" }
 ]

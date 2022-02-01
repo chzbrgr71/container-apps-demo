@@ -19,12 +19,12 @@ module.exports = function (fastify, opts, next) {
     fastify.get('/inventorybyid', options, async (request, reply) => {
         var itemId = request.query.id
         
-        for (var i=0;i<inv.length-1;i++) {
-            if (inv[i].id === itemId) {
+        for (var i = 0; i < inv.length; i++) {
+            if (inv[i].id == itemId) {
                 return inv[i]
             }
-            if (i>inv.length) {
-                return "not found"
+            if (i == inv.length-1) {
+                return ({ "id": itemId, "result": "Item not found" })
             }
         }
     })

@@ -1,5 +1,5 @@
 const got = require('got')
-const inventoryUri = 'http://localhost:8081'
+const orderUri = 'http://localhost:8081'
 
 // const inventoryService = process.env.INVENTORY_SERVICE_NAME || 'inventory-service';
 // const daprPort = process.env.DAPR_HTTP_PORT || 3500;
@@ -15,7 +15,7 @@ module.exports = function (fastify, opts, next) {
         }
       }
 
-    fastify.get('/inventorybyid', options, async (request, reply) => {
+    fastify.get('/orderbyid', options, async (request, reply) => {
         var itemId = request.query.id
         var uri = inventoryUri.concat("/inventorybyid?id=", itemId)
 
@@ -24,17 +24,7 @@ module.exports = function (fastify, opts, next) {
         })
 
         return res.body
-    })
-
-    fastify.get('/allinventory', options, async (request, reply) => {
-        var uri = inventoryUri.concat("/allinventory")
-
-        const res = await got(uri, {
-            responseType: 'json'
-        })
-
-        return res.body
-    })    
+    })  
 
     next()
 

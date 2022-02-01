@@ -12,7 +12,7 @@ Just run the `./start.sh` script to deploy everything. You can edit the `LOCATIO
 
 ## Solution Overview
 
-The demo has 3 microservices:
+The demo includes a UI app and 3 microservices:
 
 * Store Service
 * Order Service

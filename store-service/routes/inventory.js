@@ -1,9 +1,12 @@
+const DaprClient = require('dapr-client')
+const HttpMethod = require('dapr-client')
+const CommunicationProtocolEnum = require('dapr-client')
 const got = require('got')
-const inventoryUri = 'http://localhost:8081'
 
-// const inventoryService = process.env.INVENTORY_SERVICE_NAME || 'inventory-service';
-// const daprPort = process.env.DAPR_HTTP_PORT || 3500;
-// const daprSidecar = `http://localhost:${daprPort}`
+const inventoryUri = 'http://localhost:8081'
+const inventoryService = process.env.INVENTORY_SERVICE_NAME || 'inventory-service';
+const daprPort = process.env.DAPR_HTTP_PORT || 9081;
+const daprSidecar = `http://localhost:${daprPort}`
 
 module.exports = function (fastify, opts, next) {
 

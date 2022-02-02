@@ -38,3 +38,4 @@ go-service/container-go-hello-mux
 outputs/
 brian-notes.md
 order-service/components/brian.state.cosmos.yaml
+order-service/components-brian/*

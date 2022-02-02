@@ -2,7 +2,6 @@ const { DaprClient } = require('dapr-client')
 const HttpMethod = require('dapr-client')
 const CommunicationProtocolEnum = require('dapr-client')
 const daprHost = "127.0.0.1"
-//const daprHost = "10.0.0.157"
 const daprPort = process.env.ORDER_DAPR_HTTP_PORT || 9083
 const daprGrpcPort = process.env.ORDER_DAPR_GRPC_PORT || 7083
 const inventoryService = process.env.INVENTORY_SERVICE_NAME || 'inventory-service'
@@ -25,8 +24,7 @@ module.exports = function (fastify, opts, next) {
     fastify.get('/orderbyid', options, async (request, reply) => {
         var orderId = request.query.id
         
-        //const client = new DaprClient(daprHost, daprPort, CommunicationProtocolEnum.HTTP)
-        const client = new DaprClient(daprHost, 7083, CommunicationProtocolEnum.GRPC)
+        const client = new DaprClient(daprHost, daprPort, CommunicationProtocolEnum.HTTP)
         const result = await client.invoker.invoke(orderService , "orderbyid?id=" + orderId, HttpMethod.GET)
         return result
     })  
@@ -34,7 +32,7 @@ module.exports = function (fastify, opts, next) {
     fastify.post('/neworder', options, async (request, reply) => {
         // sample order request: {"orderid":"100199","itemid":"7","description":"Santa Cruz Hightower 29er MTB","location":"Denver","priority":"Standard"}
 
-        const client = new DaprClient(daprHost, 7083, CommunicationProtocolEnum.GRPC)
+        const client = new DaprClient(daprHost, daprGrpcPort, CommunicationProtocolEnum.GRPC)
         const result = await client.invoker.invoke(orderService, "createorder", HttpMethod.POST, request.body)
         return result
         // return request.body

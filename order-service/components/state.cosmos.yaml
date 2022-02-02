@@ -7,10 +7,10 @@ spec:
   version: v1
   metadata:
     - name: url
-      value: https://cosmos-d7ljui6juwfme.documents.azure.com:443/
+      value: https://
     - name: database
       value: ordersDb
     - name: collection
       value: orders
     - name: masterKey
-      value: XLDzyL3aGFJx7gO116i7mR2ds7jhJs8eMBzQ2IkeN3IAwOYFETFx2lA2dlZberHpz5udiwYDPg8okjKtFEL7FQ==
+      value: 

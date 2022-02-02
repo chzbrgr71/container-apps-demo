@@ -4,9 +4,10 @@ const CommunicationProtocolEnum = require('dapr-client')
 
 const daprPort = process.env.DAPR_HTTP_PORT || 9082;
 const daprHost = "127.0.0.1"
+const STATE_STORE_NAME = "cosmos-statestore"
 
 module.exports = function (fastify, opts, next) {
-    
+
     fastify.get('/', (req, reply) => {
         reply.send({ "orderService": "running", "status": "ok", "version": "0.10" })
     })
@@ -18,28 +19,33 @@ module.exports = function (fastify, opts, next) {
             }
         }
     }
-    
+
     fastify.get('/orderbyid', options, async (request, reply) => {
         var orderId = request.query.id
-    
-        return ({ "id": orderId, "order": "this is an order" })
+
+        const client = new DaprClient(daprHost, daprPort, CommunicationProtocolEnum.HTTP)
+
+        var result = await client.state.get(STATE_STORE_NAME, orderId);
+        console.log("Order result: " + result);
+
+        return result
     })
 
     fastify.post('/createorder', options, async (request, reply) => {
-        console.log(request.body)
+        // sample order request: {"orderid":"100199","itemid":"7","description":"Santa Cruz Hightower 29er MTB","location":"Denver","priority":"Standard"}
+        var orderPayload = request.body
+        var outdata = {
+            "key": orderPayload.orderid,
+            "value": orderPayload
+        }
 
         const client = new DaprClient(daprHost, daprPort, CommunicationProtocolEnum.HTTP)
-        const STATE_STORE_NAME = "cosmos-statestore";
-    
-        await client.state.save(STATE_STORE_NAME,[
-            request.body
+        await client.state.save(STATE_STORE_NAME, [
+            outdata
         ])
-
-        var result = await client.state.get(STATE_STORE_NAME, "order1");
-        console.log("Result after get: " + result);
-
-        return ({ "id": "1", "status": "order created" })
+        console.log("order created: " + orderPayload.orderid)
+        return ({ "status": "order created", "payload": outdata })
     })
-  
+
     next()
 }

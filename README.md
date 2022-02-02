@@ -53,6 +53,8 @@ docker push ghcr.io/chzbrgr71/store-service:$TAG
 docker push ghcr.io/chzbrgr71/inventory-service:$TAG
 docker push ghcr.io/chzbrgr71/order-service:$TAG
 
+docker run --rm --name inventory -p 8081:8081 ghcr.io/azure/container-apps-demo/inventory-service:a1ebbb8
+
 ```
 
 > Note: Container images must be manually marked as public

@@ -32,7 +32,8 @@ module.exports = function (fastify, opts, next) {
     fastify.post('/neworder', options, async (request, reply) => {
         // sample order request: {"orderid":"100199","itemid":"7","description":"Santa Cruz Hightower 29er MTB","location":"Denver","priority":"Standard"}
 
-        const client = new DaprClient(daprHost, daprGrpcPort, CommunicationProtocolEnum.GRPC)
+        //const client = new DaprClient(daprHost, daprGrpcPort, CommunicationProtocolEnum.GRPC)
+        const client = new DaprClient(daprHost, daprPort, CommunicationProtocolEnum.HTTP)
         const result = await client.invoker.invoke(orderService, "createorder", HttpMethod.POST, request.body)
         return result
         // return request.body

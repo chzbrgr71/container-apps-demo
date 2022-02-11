@@ -1,11 +1,11 @@
 var fs = require('fs')
-var products = fs.readFileSync('./products.json', 'utf8')
+var products = fs.readFileSync('./products2.json', 'utf8')
 const inv = JSON.parse(products)
 
 module.exports = function (fastify, opts, next) {
     
     fastify.get('/', (req, reply) => {
-        reply.send({ "inventoryService": "running", "status": "ok", "version": "1.10" })
+        reply.send({ "inventoryService": "running", "status": "ok", "version": "1.50" })
     })
 
     const options = {

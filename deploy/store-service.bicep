@@ -20,7 +20,7 @@ resource storeContainerApp 'Microsoft.Web/containerApps@2021-03-01' = {
       // secrets: secrets
       ingress: {
         external: isStoreExternalIngress
-        targetPort: storePort
+        targetPort: 8083
         transport: 'auto'
         // traffic: [
         //   {
@@ -58,7 +58,7 @@ resource storeContainerApp 'Microsoft.Web/containerApps@2021-03-01' = {
       }
       dapr: {
         enabled: true
-        appPort: storePort
+        appPort: 8083
         appId: containerAppName
         components: daprComponents
       }

@@ -21,7 +21,7 @@ resource orderContainerApp 'Microsoft.Web/containerApps@2021-03-01' = {
       secrets: secrets
       ingress: {
         external: isOrderExternalIngress
-        targetPort: orderPort
+        targetPort: 8082
         transport: 'auto'
         // traffic: [
         //   {
@@ -59,7 +59,7 @@ resource orderContainerApp 'Microsoft.Web/containerApps@2021-03-01' = {
       }
       dapr: {
         enabled: true
-        appPort: orderPort
+        appPort: 8082
         appId: containerAppName
         components: daprComponents
       }

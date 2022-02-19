@@ -1,7 +1,7 @@
 const { DaprClient } = require('dapr-client')
 const HttpMethod = require('dapr-client')
 const CommunicationProtocolEnum = require('dapr-client')
-const daprHost = "127.0.0.1"
+const daprHost = "localhost"
 const daprPort = process.env.ORDER_DAPR_HTTP_PORT || 9083
 const daprGrpcPort = process.env.ORDER_DAPR_GRPC_PORT || 7083
 const inventoryService = process.env.INVENTORY_SERVICE_NAME || 'inventory-service'
@@ -57,7 +57,8 @@ module.exports = function (fastify, opts, next) {
 
     fastify.get('/inventorystatus', options, async (request, reply) => {
 
-        const client = new DaprClient(daprHost, daprPort, CommunicationProtocolEnum.HTTP)
+        //const client = new DaprClient(daprHost, daprPort, CommunicationProtocolEnum.HTTP)
+        const client = new DaprClient(daprHost, process.env.DAPR_HTTP_PORT, CommunicationProtocolEnum.HTTP)
         const result = await client.invoker.invoke(inventoryService , "/", HttpMethod.GET)
         return result
     

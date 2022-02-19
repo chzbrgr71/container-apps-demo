@@ -20,7 +20,7 @@ resource inventoryContainerApp 'Microsoft.Web/containerApps@2021-03-01' = {
       // secrets: secrets
       ingress: {
         external: isInventoryExternalIngress
-        targetPort: inventoryPort
+        targetPort: 8081
         transport: 'auto'
         // traffic: [
         //   {
@@ -58,7 +58,7 @@ resource inventoryContainerApp 'Microsoft.Web/containerApps@2021-03-01' = {
       }
       dapr: {
         enabled: true
-        appPort: inventoryPort
+        appPort: 8081
         appId: containerAppName
         components: daprComponents
       }

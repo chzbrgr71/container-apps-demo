@@ -54,6 +54,14 @@ module.exports = function (fastify, opts, next) {
         return result
     
     })  
+
+    fastify.get('/inventorystatus', options, async (request, reply) => {
+
+        const client = new DaprClient(daprHost, daprPort, CommunicationProtocolEnum.HTTP)
+        const result = await client.invoker.invoke(inventoryService , "/", HttpMethod.GET)
+        return result
+    
+    })     
   
     next()
 }

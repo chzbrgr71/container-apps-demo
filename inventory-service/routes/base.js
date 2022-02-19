@@ -5,7 +5,7 @@ const inv = JSON.parse(products)
 module.exports = function (fastify, opts, next) {
     
     fastify.get('/', (req, reply) => {
-        reply.send({ "inventoryService": "running", "status": "ok", "version": "1.50" })
+        reply.send({ "inventoryService": "running", "status": "ok", "version": "1.75" })
     })
 
     const options = {

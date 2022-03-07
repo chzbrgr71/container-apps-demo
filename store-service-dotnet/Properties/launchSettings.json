@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "order_service_dotnet": {
+    "store_service_dotnet": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

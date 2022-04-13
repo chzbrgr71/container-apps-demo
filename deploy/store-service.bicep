@@ -31,15 +31,15 @@ resource storeContainerApp 'Microsoft.App/containerApps@2022-01-01-preview' = {
           image: storeImage
           name: containerAppName
           env: env
-          // probes: [
-          //   {
-          //     type: 'liveness'
-          //     httpGet: { 
-          //       path: '/healthz'
-          //       port: 8083
-          //     }
-          //   }
-          // ]          
+          probes: [
+            {
+              type: 'liveness'
+              httpGet: { 
+                path: '/healthz'
+                port: 8083
+              }
+            }
+          ]          
           resources: {
             cpu: '0.75'
             memory: '1.5Gi'

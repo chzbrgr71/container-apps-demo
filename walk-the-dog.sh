@@ -47,15 +47,12 @@ az deployment group create \
     --parameters \
         storeMinReplicas=1 \
         storeImage='ghcr.io/azure/container-apps-demo/store-service:latest' \
-        storePort=8083 \
         isStoreExternalIngress=true \
         orderMinReplicas=1 \
         orderImage='ghcr.io/azure/container-apps-demo/order-service:latest' \
-        orderPort=8082 \
         isOrderExternalIngress=true \
         inventoryMinReplicas=1 \
         inventoryImage='ghcr.io/azure/container-apps-demo/inventory-service:latest' \
-        inventoryPort=8081 \
         isInventoryExternalIngress=true
 
 # Deployment outputs

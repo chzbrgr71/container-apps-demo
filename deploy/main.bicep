@@ -4,29 +4,17 @@ param environmentName string = 'env-${uniqueString(resourceGroup().id)}'
 // inventory service
 param inventoryMinReplicas int = 1
 param inventoryImage string = 'ghcr.io/azure/container-apps-demo/inventory-service:latest'
-param inventoryPort int = 80
 param isInventoryExternalIngress bool = true
 
 // order service
 param orderMinReplicas int = 1
 param orderImage string = 'ghcr.io/azure/container-apps-demo/order-service:latest'
-param orderPort int = 80
 param isOrderExternalIngress bool = true
 
 // store service
 param storeMinReplicas int = 1
 param storeImage string = 'ghcr.io/azure/container-apps-demo/store-service:latest'
-param storePort int = 80
 param isStoreExternalIngress bool = true
-
-// container app environment
-module environment 'environment.bicep' = {
-  name: 'container-app-environment'
-  params: {
-    environmentName: environmentName
-    location: location
-  }
-}
 
 // cosmosdb
 module cosmosdb 'cosmosdb.bicep' = {
@@ -37,6 +25,17 @@ module cosmosdb 'cosmosdb.bicep' = {
   }
 }
 
+// container app environment
+module environment 'environment.bicep' = {
+  name: 'container-app-environment'
+  params: {
+    environmentName: environmentName
+    location: location
+    cosmosAccountName: cosmosdb.outputs.cosmosAccountName
+    cosmosDbEndpoint: cosmosdb.outputs.documentEndpoint
+  }
+}
+
 // container app: store-service
 module storeService 'store-service.bicep' = {
   name: 'store-service'
@@ -44,7 +43,6 @@ module storeService 'store-service.bicep' = {
     location: location
     environmentId: environment.outputs.environmentId
     storeImage: storeImage
-    storePort: storePort
     isStoreExternalIngress: isStoreExternalIngress
     storeMinReplicas: storeMinReplicas
     env: [
@@ -67,7 +65,6 @@ module orderService 'order-service.bicep' = {
     location: location
     environmentId: environment.outputs.environmentId
     orderImage: orderImage
-    orderPort: orderPort
     isOrderExternalIngress: isOrderExternalIngress
     orderMinReplicas: orderMinReplicas
     secrets: [
@@ -76,31 +73,6 @@ module orderService 'order-service.bicep' = {
         value: cosmosdb.outputs.primaryMasterKey
       }
     ]    
-    daprComponents: [
-      {
-        name: 'orders'
-        type: 'state.azure.cosmosdb'
-        version: 'v1'
-        metadata: [
-          {
-            name: 'url'
-            value: cosmosdb.outputs.documentEndpoint
-          }
-          {
-            name: 'database'
-            value: 'ordersDb'
-          }
-          {
-            name: 'collection'
-            value: 'orders'
-          }
-          {
-            name: 'masterkey'
-            secretRef: 'masterkey'
-          }
-        ]
-      }
-    ]
   }
 }
 
@@ -111,12 +83,12 @@ module inventoryService 'inventory-service.bicep' = {
     location: location
     environmentId: environment.outputs.environmentId
     inventoryImage: inventoryImage
-    inventoryPort: inventoryPort
     isInventoryExternalIngress: isInventoryExternalIngress
     inventoryMinReplicas: inventoryMinReplicas
   }
 }
 
+output cosmosDbEndpoint string = cosmosdb.outputs.documentEndpoint
 output storeFqdn string = storeService.outputs.fqdn
 output orderFqdn string = orderService.outputs.fqdn
 output inventoryFqdn string = inventoryService.outputs.fqdn

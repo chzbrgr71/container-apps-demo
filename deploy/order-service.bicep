@@ -1,38 +1,33 @@
 param location string = resourceGroup().location
 param environmentId string
 param orderImage string
-param orderPort int
 param isOrderExternalIngress bool
 param env array = []
-param daprComponents array = []
 param orderMinReplicas int = 0
 param secrets array = []
 
 var containerAppName = 'order-service'
 
-resource orderContainerApp 'Microsoft.Web/containerApps@2021-03-01' = {
+resource orderContainerApp 'Microsoft.App/containerApps@2022-01-01-preview' = {
   name: containerAppName
-  kind: 'containerapp'
   location: location
   properties: {
-    kubeEnvironmentId: environmentId
+    managedEnvironmentId: environmentId
     configuration: {
-      // activeRevisionsMode: revisionMode
       secrets: secrets
       ingress: {
         external: isOrderExternalIngress
         targetPort: 8082
         transport: 'auto'
-        // traffic: [
-        //   {
-        //     weight: 100
-        //     latestRevision: true
-        //   }
-        // ]
+      }
+      dapr: {
+        enabled: true
+        appId: containerAppName
+        appProtocol: 'http'
+        appPort: 8082
       }
     }
     template: {
-      // revisionSuffix: 'somevalue'
       containers: [
         {
           image: orderImage
@@ -46,22 +41,6 @@ resource orderContainerApp 'Microsoft.Web/containerApps@2021-03-01' = {
       ]
       scale: {
         minReplicas: orderMinReplicas
-      //  maxReplicas: 10
-      //   rules: [{
-      //     name: 'httpscale'
-      //     http: {
-      //       metadata: {
-      //         concurrentRequests: 100
-      //       }
-      //     }
-      //   }
-      //   ]
-      }
-      dapr: {
-        enabled: true
-        appPort: 8082
-        appId: containerAppName
-        components: daprComponents
       }
     }
   }

@@ -108,5 +108,6 @@ resource accountName_databaseName_containerName 'Microsoft.DocumentDB/databaseAc
   }
 }
 
+output cosmosAccountName string = accountName_var
 output documentEndpoint string = accountName_resource.properties.documentEndpoint
 output primaryMasterKey string = listKeys(accountName_resource.id, accountName_resource.apiVersion).primaryMasterKey

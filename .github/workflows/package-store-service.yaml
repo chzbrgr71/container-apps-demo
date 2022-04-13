@@ -5,7 +5,7 @@ on:
     branches:
       - 'main'
     paths:
-      - 'store-service-dotnet/**'
+      - 'store-service/**'
 
   workflow_dispatch:
 
@@ -46,8 +46,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: ./store-service-dotnet
-          file: store-service-dotnet/Dockerfile
+          context: ./store-service
+          file: store-service/Dockerfile
           push: true
           tags: |
             ${{ needs.set-env.outputs.repository }}/${{ needs.set-env.outputs.image }}:latest

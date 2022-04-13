@@ -1,66 +1,38 @@
 param location string = resourceGroup().location
 param environmentId string
 param inventoryImage string
-param inventoryPort int
 param isInventoryExternalIngress bool
 param env array = []
-param daprComponents array = []
 param inventoryMinReplicas int = 0
 
 var containerAppName = 'inventory-service'
 
-resource inventoryContainerApp 'Microsoft.Web/containerApps@2021-03-01' = {
+resource inventoryContainerApp 'Microsoft.App/containerApps@2022-01-01-preview' = {
   name: containerAppName
-  kind: 'containerapp'
   location: location
   properties: {
-    kubeEnvironmentId: environmentId
+    managedEnvironmentId: environmentId
     configuration: {
-      // activeRevisionsMode: revisionMode
-      // secrets: secrets
       ingress: {
         external: isInventoryExternalIngress
         targetPort: 8081
         transport: 'auto'
-        // traffic: [
-        //   {
-        //     weight: 100
-        //     latestRevision: true
-        //   }
-        // ]
       }
     }
     template: {
-      // revisionSuffix: 'somevalue'
       containers: [
         {
           image: inventoryImage
           name: containerAppName
           env: env
           resources: {
-            cpu: '0.25'
-            memory: '0.5Gi'
+            cpu: '0.75'
+            memory: '1.5Gi'
           }
         }
       ]
       scale: {
         minReplicas: inventoryMinReplicas
-      //  maxReplicas: 10
-      //   rules: [{
-      //     name: 'httpscale'
-      //     http: {
-      //       metadata: {
-      //         concurrentRequests: 100
-      //       }
-      //     }
-      //   }
-      //   ]
-      }
-      dapr: {
-        enabled: true
-        appPort: 8081
-        appId: containerAppName
-        components: daprComponents
       }
     }
   }

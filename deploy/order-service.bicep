@@ -11,9 +11,9 @@ var containerAppName = 'order-service'
 resource orderContainerApp 'Microsoft.App/containerApps@2022-01-01-preview' = {
   name: containerAppName
   location: location
-  // identity: {
-  //   type: 'SystemAssigned'
-  // }
+  identity: {
+    type: 'SystemAssigned'
+  }
   properties: {
     managedEnvironmentId: environmentId
     configuration: {

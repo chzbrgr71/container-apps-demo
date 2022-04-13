@@ -21,6 +21,10 @@ module.exports = function (fastify, opts, next) {
         reply.send({ "storeService": "running", "status": "ok", "version": "0.10" })
     })
 
+    fastify.get('/healthz', (req, reply) => {
+        reply.send({ "status": "ok" })
+    })
+
     fastify.get('/orderbyid', options, async (request, reply) => {
         var orderId = request.query.id
         

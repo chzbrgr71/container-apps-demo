@@ -22,9 +22,12 @@ module.exports = function (fastify, opts, next) {
     })
 
     fastify.get('/healthz', (req, reply) => {
-        //reply.send({ "status": "ok" })
-        reply.statusCode = 500
-        reply.send({ "status": "fail" })
+        // use this code for normal operation (instead of below)
+        reply.send({ "status": "ok" })
+
+        // use this code to simulate an error for the health check
+        //reply.statusCode = 500
+        //reply.send({ "status": "fail" })
     })
 
     fastify.get('/orderbyid', options, async (request, reply) => {

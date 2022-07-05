@@ -39,7 +39,7 @@ The below steps are for working locally, but this is optional.
 export GITHUB_CR_PAT='' # set in bash profile
 docker login ghcr.io -u chzbrgr71 -p $GITHUB_CR_PAT
 
-export TAG='v1.21'
+export TAG='v1.50'
 
 docker build -t chzbrgr71/store-service:$TAG ./store-service
 docker build -t chzbrgr71/inventory-service:$TAG ./inventory-service

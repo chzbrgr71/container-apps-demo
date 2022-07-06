@@ -1,5 +1,6 @@
 param location string = resourceGroup().location
 param environmentName string = 'env-${uniqueString(resourceGroup().id)}'
+param storageAccountName string = 'sa${uniqueString(resourceGroup().id)}'
 
 // inventory service
 param inventoryMinReplicas int = 1
@@ -22,6 +23,16 @@ module cosmosdb 'cosmosdb.bicep' = {
   params: {
     location: location
     primaryRegion: location
+  }
+}
+
+// azure storage file share
+module storageModule 'storage.bicep' = {
+  name: '${deployment().name}--storage'
+  params: {
+    storageAccountName: storageAccountName
+    location: location
+    fileShareName: 'shareddata'
   }
 }
 

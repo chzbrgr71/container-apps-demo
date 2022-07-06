@@ -1,0 +1,59 @@
+id: /subscriptions/...
+identity:
+  type: None
+location: East US
+name: inventory-service
+properties:
+  configuration:
+    activeRevisionsMode: Multiple
+    dapr:
+      appId: inventory-service
+      appPort: 8081
+      appProtocol: http
+      enabled: true
+    ingress:
+      allowInsecure: false
+      external: true
+      fqdn: inventory-service.blackbay-7ef570dd.eastus.azurecontainerapps.io
+      targetPort: 8081
+      traffic:
+      - latestRevision: true
+        weight: 100
+      transport: Auto
+  customDomainVerificationId: 
+  latestRevisionFqdn: inventory-service--41bw143.blackbay-7ef570dd.eastus.azurecontainerapps.io
+  latestRevisionName: inventory-service--41bw143
+  managedEnvironmentId: /subscriptions/471d33fd-a776-405b-947c-467c291dc741/resourceGroups/briar-container-app-demo-20265/providers/Microsoft.App/managedEnvironments/env-dxpxn7jusu4ww
+  outboundIpAddresses:
+  - 20.120.60.229
+  - 20.120.61.23
+  - 20.120.60.225
+  provisioningState: Succeeded
+  template:
+    containers:
+    - image: ghcr.io/azure/container-apps-demo/inventory-service:latest
+      name: inventory-service
+      volumeMounts:
+      - volumeName: azure-files-volume
+        mountPath: /shared-files
+      probes:
+      - failureThreshold: 5
+        httpGet:
+          path: /healthz
+          port: 8081
+        periodSeconds: 15
+        type: Liveness
+      resources:
+        cpu: 0.75
+        ephemeralStorage: ''
+        memory: 1.5Gi
+    volumes:
+    - name: azure-files-volume
+      storageType: AzureFile
+      storageName: mystorage
+    revisionSuffix: ''
+    scale:
+      maxReplicas: 10
+      minReplicas: 1
+resourceGroup: briar-container-app-demo-20265
+type: Microsoft.App/containerApps

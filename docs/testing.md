@@ -6,7 +6,25 @@ Docs. https://docs.microsoft.com/en-us/azure/container-apps/overview
 
 ```bash
 
-dapr init
+# storage
+az containerapp env storage set --name env-dxpxn7jusu4ww --resource-group briar-container-app-demo-20265 \
+    --storage-name mystorage \
+    --azure-file-account-name sadxpxn7jusu4ww \
+    --azure-file-account-key Vi2YR4n6GJklpPX/KKWhBuJd14dduAWxq04BfA3eTMzneNDbTFw0UtS/o9ysi3MJMQtpzoLOPUEU+AStCacuLQ== \
+    --azure-file-share-name shareddata \
+    --access-mode ReadWrite
+
+az containerapp show -n inventory-service -g briar-container-app-demo-20265 -o yaml > app.yaml
+az containerapp update --name inventory-service --resource-group briar-container-app-demo-20265 \
+    --yaml app.yaml
+
+while true; do curl https://inventory-service.blackbay-7ef570dd.eastus.azurecontainerapps.io/allinventory && echo '' ; sleep 2; done
+
+curl https://inventory-service.blackbay-7ef570dd.eastus.azurecontainerapps.io/allinventory
+
+while true; do curl https://store-service.blackbay-7ef570dd.eastus.azurecontainerapps.io/orderbyid?id=232323 && echo '' ; sleep 2; done
+
+curl https://store-service.blackbay-7ef570dd.eastus.azurecontainerapps.io/orderbyid?id=232323
 
 # inventory
 dapr run --app-id inventory-service --app-port 8081 --dapr-http-port 9081 --dapr-grpc-port 7081 npm start
@@ -41,9 +59,7 @@ curl http://0.0.0.0:8083/orderbyid?id=990310
 curl http://0.0.0.0:8083/inventorybyid?id=9
 curl http://0.0.0.0:8083/neworder -X POST -H 'Content-Type: application/json' -d '{"orderid":"990310","itemid":"3","description":"MSR Snow shoes","location":"Denver","priority":"Standard"}'
 
-https://store-service.mangosky-f6a39d77.eastus.azurecontainerapps.io
-
-curl https://store-service.mangosky-f6a39d77.eastus.azurecontainerapps.io/neworder -X POST -H 'Content-Type: application/json' -d '{"orderid":"232323","itemid":"3","description":"REI Brand Snow shoes","location":"Denver","priority":"Rush"}'
+curl https://store-service.blackbay-7ef570dd.eastus.azurecontainerapps.io/neworder -X POST -H 'Content-Type: application/json' -d '{"orderid":"232323","itemid":"3","description":"REI Brand Snow shoes","location":"Denver","priority":"Rush"}'
 
 curl https://store-service.mangosky-f6a39d77.eastus.azurecontainerapps.io/neworder -X POST -H 'Content-Type: application/json' -d '{"orderid":"123456","itemid":"3","description":"Santa Cruz MTB","location":"Colorado Springs","priority":"Rush"}'
 

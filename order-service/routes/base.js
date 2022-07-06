@@ -12,6 +12,15 @@ module.exports = function (fastify, opts, next) {
         reply.send({ "orderService": "running", "status": "ok", "version": "0.10" })
     })
 
+    fastify.get('/healthz', (req, reply) => {
+        // use this code for normal operation (instead of below)
+        reply.send({ "status": "ok" })
+
+        // use this code to simulate an error for the health check
+        //reply.statusCode = 500
+        //reply.send({ "status": "fail" })
+    })    
+
     const options = {
         schema: {
             querystring: {

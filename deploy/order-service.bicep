@@ -18,6 +18,7 @@ resource orderContainerApp 'Microsoft.App/containerApps@2022-01-01-preview' = {
     managedEnvironmentId: environmentId
     configuration: {
       secrets: secrets
+      activeRevisionsMode: 'multiple'
       ingress: {
         external: isOrderExternalIngress
         targetPort: 8082
@@ -28,13 +29,24 @@ resource orderContainerApp 'Microsoft.App/containerApps@2022-01-01-preview' = {
         appId: containerAppName
         appProtocol: 'http'
         appPort: 8082
-      }
+      } 
     }
     template: {
       containers: [
         {
           image: orderImage
           name: containerAppName
+          probes: [
+            {
+              type: 'liveness'
+              httpGet: {
+                path: '/healthz'
+                port: 8082
+              }
+              failureThreshold: 5
+              periodSeconds: 15
+            }
+          ]            
           env: env
           resources: {
             cpu: '0.75'

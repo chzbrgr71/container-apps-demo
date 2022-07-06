@@ -13,6 +13,7 @@ resource storeContainerApp 'Microsoft.App/containerApps@2022-01-01-preview' = {
   properties: {
     managedEnvironmentId: environmentId
     configuration: {
+      activeRevisionsMode: 'multiple'
       ingress: {
         external: isStoreExternalIngress
         targetPort: 8083

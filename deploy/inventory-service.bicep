@@ -13,17 +13,35 @@ resource inventoryContainerApp 'Microsoft.App/containerApps@2022-01-01-preview' 
   properties: {
     managedEnvironmentId: environmentId
     configuration: {
+      activeRevisionsMode: 'multiple'
       ingress: {
         external: isInventoryExternalIngress
         targetPort: 8081
         transport: 'auto'
       }
-    }
+      dapr: {
+        enabled: true
+        appId: containerAppName
+        appProtocol: 'http'
+        appPort: 8081
+      }       
+    } 
     template: {
       containers: [
         {
           image: inventoryImage
           name: containerAppName
+          probes: [
+            {
+              type: 'liveness'
+              httpGet: {
+                path: '/healthz'
+                port: 8081
+              }
+              failureThreshold: 5
+              periodSeconds: 15
+            }
+          ]          
           env: env
           resources: {
             cpu: '0.75'

@@ -54,6 +54,10 @@ module storeService 'store-service.bicep' = {
         name: 'INVENTORY_SERVICE_NAME'
         value: 'inventory-service'
       }
+      {
+        name: 'ORDER_DAPR_HTTP_PORT'
+        value: '3500'
+      }      
     ]
   }
 }

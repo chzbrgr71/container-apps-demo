@@ -16,24 +16,23 @@ curl http://0.0.0.0:8081/inventorybyid?id=9
 curl http://0.0.0.0:8081/allinventory
 curl http://localhost:9081/v1.0/invoke/inventory-service/method/allinventory
 
+curl https://inventory-service.greenhill-45a5e1c2.eastus.azurecontainerapps.io/allinventory
+
 # order
 dapr run --app-id order-service --app-port 8082 --dapr-http-port 9082 npm start
 dapr run --app-id order-service --components-path ./components-brian --app-port 8082 --dapr-http-port 9082 --dapr-grpc-port 7082 npm start
 
-curl http://localhost:9082/v1.0/invoke/order-service/method/
-
+curl http://0.0.0.0:8082/healthz
+curl http://localhost:9082/v1.0/invoke/order-service/method
 curl http://0.0.0.0:8082/orderbyid?id=990310
 
 curl http://0.0.0.0:8082/createorder -X POST -H 'Content-Type: application/json' -d '{"orderid":"990310","itemid":"3","description":"MSR Snow shoes","location":"Denver","priority":"Standard"}'
 
-export ORDER_URL=https://order-service.livelyflower-ad51a38b.eastus.azurecontainerapps.io
-curl $ORDER_URL/createorder -X POST -H 'Content-Type: application/json' -d '{"orderid":"990310","itemid":"3","description":"MSR Snow shoes","location":"Denver","priority":"Standard"}'
+export ORDER_URL=https://order-service.greenhill-45a5e1c2.eastus.azurecontainerapps.io
+curl $ORDER_URL/createorder -X POST -H 'Content-Type: application/json' -d '{"orderid":"444444","itemid":"3","description":"Crappy Snow shoes","location":"Denver","priority":"Standard"}'
 
 # store
 dapr run --app-id store-service --app-port 8083 --dapr-http-port 9083 --dapr-grpc-port 7083 npm start
-
-dapr run --app-id store-service --app-port 7034 --dapr-http-port 9034 dotnet run
-dapr run --app-id store-service --app-port 5020 --dapr-http-port 9034 dotnet run
 
 curl http://0.0.0.0:8083/healthz
 curl http://0.0.0.0:8083/allinventory
@@ -42,25 +41,11 @@ curl http://0.0.0.0:8083/orderbyid?id=990310
 curl http://0.0.0.0:8083/inventorybyid?id=9
 curl http://0.0.0.0:8083/neworder -X POST -H 'Content-Type: application/json' -d '{"orderid":"990310","itemid":"3","description":"MSR Snow shoes","location":"Denver","priority":"Standard"}'
 
-curl http://0.0.0.0:8083/neworder -X POST -H 'Content-Type: application/json' -d '{"orderid":"232323","itemid":"3","description":"REI Brand Snow shoes","location":"Denver","priority":"Rush"}'
+https://store-service.mangosky-f6a39d77.eastus.azurecontainerapps.io
 
-curl http://0.0.0.0:9034/v1.0/invoke/store-service/method/status
-curl http://0.0.0.0:9083/v1.0/invoke/store-service/method/inventorystatus
+curl https://store-service.mangosky-f6a39d77.eastus.azurecontainerapps.io/neworder -X POST -H 'Content-Type: application/json' -d '{"orderid":"232323","itemid":"3","description":"REI Brand Snow shoes","location":"Denver","priority":"Rush"}'
 
-curl http://0.0.0.0:9083/v1.0/invoke/order-service/method/orderbyid?id=990310
-
-curl http://0.0.0.0:9083/v1.0/invoke/order-service/method/createorder -X POST -H 'Content-Type: application/json' -d '{"orderid":"123456","itemid":"3","description":"MSR Snow shoes","location":"Denver","priority":"Standard"}'
-
-
-dapr invoke --app-id store-service --method status --verb GET
-
-curl http://localhost:9083/v1.0/invoke/order-service/method/orderbyid?id=202903 
-
-curl http://localhost:9083/v1.0/invoke/store-service/method/createorder -X POST -H 'Content-Type: application/json' -d '{"orderid":"990310","itemid":"3","description":"MSR Snow shoes","location":"Denver","priority":"Standard"}'
-
-curl http://localhost:9082/v1.0/invoke/order-service/method/createorder -X POST -H 'Content-Type: application/json' -d '{"orderid":"990310","itemid":"3","description":"MSR Snow shoes","location":"Denver","priority":"Standard"}'
-
-curl http://127.0.0.1:7083/v1.0/invoke/order-service/method/createorder  -X POST -H 'Content-Type: application/json' -d '{"orderid":"990310","itemid":"3","description":"MSR Snow shoes","location":"Denver","priority":"Standard"}'
+curl https://store-service.mangosky-f6a39d77.eastus.azurecontainerapps.io/neworder -X POST -H 'Content-Type: application/json' -d '{"orderid":"123456","itemid":"3","description":"Santa Cruz MTB","location":"Colorado Springs","priority":"Rush"}'
 
 dapr invoke --app-id store-service --method neworder --data '{"orderid":"990310","itemid":"3","description":"MSR Snow shoes","location":"Denver","priority":"Standard"}'
 ```

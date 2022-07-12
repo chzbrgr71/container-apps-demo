@@ -1,6 +1,8 @@
 param environmentName string
 param logAnalyticsWorkspaceName string = 'logs-${environmentName}'
 param appInsightsName string = 'appins-${environmentName}'
+param storageAccountName string = 'sa${uniqueString(resourceGroup().id)}'
+param storageFileShare string = 'shareddata'
 param location string = resourceGroup().location
 param cosmosAccountName string
 param cosmosDbEndpoint string
@@ -32,7 +34,20 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02-preview' = {
   }
 }
 
-resource environment 'Microsoft.App/managedEnvironments@2022-01-01-preview' = {
+resource storageAccount 'Microsoft.Storage/storageAccounts@2021-06-01' = {
+  name: storageAccountName
+  location: location
+  kind: 'StorageV2'
+  sku: {
+    name: 'Standard_LRS'
+  }
+}
+
+resource myStorage 'Microsoft.Storage/storageAccounts/fileServices/shares@2019-06-01' = {
+  name: '${storageAccount.name}/default/${storageFileShare}'
+}
+
+resource environment 'Microsoft.App/managedEnvironments@2022-03-01' = {
   name: environmentName
   location: location
   properties: {
@@ -45,7 +60,7 @@ resource environment 'Microsoft.App/managedEnvironments@2022-01-01-preview' = {
       }
     }
   }
-  resource daprComponent 'daprComponents@2022-01-01-preview' = {
+  resource daprComponent 'daprComponents@2022-03-01' = {
     name: 'cosmos-statestore'
     properties: {
       componentType: 'state.azure.cosmosdb'
@@ -83,8 +98,22 @@ resource environment 'Microsoft.App/managedEnvironments@2022-01-01-preview' = {
   }  
 }
 
+resource environment_name_myazurefiles 'Microsoft.App/managedEnvironments/storages@2022-03-01' = {
+  parent: environment
+  name: 'myazurefiles'
+  properties: {
+    azureFile: {
+      accountName: storageAccountName
+      accountKey: listkeys(storageAccount.id, storageAccount.apiVersion).keys[0].value
+      shareName: storageFileShare
+      accessMode: 'ReadWrite'
+    }
+  }
+}
+
 output location string = location
 output environmentId string = environment.id
 output defaultDomain string = environment.properties.defaultDomain
 output appInsightsInstrumentationKey string = appInsights.properties.InstrumentationKey
 output logAnalyticsName string = logAnalyticsWorkspaceName
+output storageAccountName string = storageAccountName

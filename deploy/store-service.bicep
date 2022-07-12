@@ -7,7 +7,7 @@ param storeMinReplicas int = 0
 
 var containerAppName = 'store-service'
 
-resource storeContainerApp 'Microsoft.App/containerApps@2022-01-01-preview' = {
+resource storeContainerApp 'Microsoft.App/containerApps@2022-03-01' = {
   name: containerAppName
   location: location
   properties: {
@@ -45,11 +45,24 @@ resource storeContainerApp 'Microsoft.App/containerApps@2022-01-01-preview' = {
             cpu: '0.75'
             memory: '1.5Gi'
           }
+          volumeMounts: [
+            {
+              volumeName: 'azure-files-volume'
+              mountPath: '/shared-files'
+            }
+          ]          
         }
       ]
       scale: {
         minReplicas: storeMinReplicas
       }
+      volumes: [
+        {
+          name: 'azure-files-volume'
+          storageType: 'AzureFile'
+          storageName: 'myazurefiles'
+        }
+      ]      
     }
   }
 }

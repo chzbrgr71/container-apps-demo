@@ -7,7 +7,7 @@ param inventoryMinReplicas int = 0
 
 var containerAppName = 'inventory-service'
 
-resource inventoryContainerApp 'Microsoft.App/containerApps@2022-01-01-preview' = {
+resource inventoryContainerApp 'Microsoft.App/containerApps@2022-03-01' = {
   name: containerAppName
   location: location
   properties: {
@@ -47,11 +47,24 @@ resource inventoryContainerApp 'Microsoft.App/containerApps@2022-01-01-preview' 
             cpu: '0.75'
             memory: '1.5Gi'
           }
+          volumeMounts: [
+            {
+              volumeName: 'azure-files-volume'
+              mountPath: '/shared-files'
+            }
+          ]
         }
       ]
       scale: {
         minReplicas: inventoryMinReplicas
       }
+      volumes: [
+        {
+          name: 'azure-files-volume'
+          storageType: 'AzureFile'
+          storageName: 'myazurefiles'
+        }
+      ]
     }
   }
 }

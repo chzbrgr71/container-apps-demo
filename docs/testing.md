@@ -59,7 +59,7 @@ curl http://0.0.0.0:8083/orderbyid?id=990310
 curl http://0.0.0.0:8083/inventorybyid?id=9
 curl http://0.0.0.0:8083/neworder -X POST -H 'Content-Type: application/json' -d '{"orderid":"990310","itemid":"3","description":"MSR Snow shoes","location":"Denver","priority":"Standard"}'
 
-curl https://store-service.blackbay-7ef570dd.eastus.azurecontainerapps.io/neworder -X POST -H 'Content-Type: application/json' -d '{"orderid":"232323","itemid":"3","description":"REI Brand Snow shoes","location":"Denver","priority":"Rush"}'
+curl https://store-service.happysea-285d10d7.eastus.azurecontainerapps.io/neworder -X POST -H 'Content-Type: application/json' -d '{"orderid":"232323","itemid":"3","description":"REI Brand Snow shoes","location":"Denver","priority":"Rush"}'
 
 curl https://store-service.mangosky-f6a39d77.eastus.azurecontainerapps.io/neworder -X POST -H 'Content-Type: application/json' -d '{"orderid":"123456","itemid":"3","description":"Santa Cruz MTB","location":"Colorado Springs","priority":"Rush"}'
 
